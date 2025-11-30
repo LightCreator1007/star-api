@@ -26,6 +26,10 @@ export default async function StarDetailPage({ params }) {
         galaxy_id,
         name
       ),
+      planets (
+        planet_id,
+        name
+      ),
       constellation (
         id,
         name
@@ -120,6 +124,21 @@ export default async function StarDetailPage({ params }) {
                     {star.constellation.name}
                   </span>
                 </Link>
+              </div>
+            )}
+
+            {star.planets && star.planets.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-2xl font-bold mb-4">Planets in this star</h2>
+                <div className="flex flex-wrap gap-3">
+                  {star.planets.map((planet) => (
+                    <Link key={planet.planet_id} href={`/planets/${planet.planet_id}`}>
+                      <span className="px-4 py-2 bg-blue-900/50 text-blue-200 rounded-full border border-blue-700 hover:bg-blue-800 cursor-pointer transition">
+                        {planet.name}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
               </div>
             )}
           </div>
