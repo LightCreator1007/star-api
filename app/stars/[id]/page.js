@@ -1,8 +1,6 @@
 import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getStarImage } from "../getStarImage";
 import StarSystemSimulation from "@/app/components/StarSystemSimulation";
 
 export default async function StarDetailPage({ params }) {
@@ -45,33 +43,29 @@ export default async function StarDetailPage({ params }) {
 
   return (
     <div className="p-10 bg-gray-900 min-h-screen text-white">
-      <Link href="/stars" className="text-yellow-400 hover:text-yellow-300 mb-4 inline-block">
-        ← Back to Stars
-      </Link>
+      {/* Breadcrumbs */}
+      <nav className="text-sm text-gray-400 mb-8 flex items-center space-x-2">
+        <Link href="/" className="hover:text-yellow-400 transition">
+          Universe
+        </Link>
+        <span>&gt;</span>
+        {star.galaxies ? (
+          <Link href={`/galaxies/${star.galaxies.galaxy_id}`} className="hover:text-yellow-400 transition">
+             Galaxy: {star.galaxies.name}
+          </Link>
+        ) : (
+          <span>Unknown Galaxy</span>
+        )}
+        <span>&gt;</span>
+        <span className="text-yellow-300 font-medium">Star: {star.name}</span>
+      </nav>
       
-      {/* <div className="max-w-4xl mx-auto">
-        <div className="bg-gray-800 border border-gray-700 rounded-xl overflow-hidden">
-          <div className="h-64 relative overflow-hidden">
-            <Image
-              src={getStarImage(star.star_type)}
-              alt={star.name}
-              fill
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent flex items-end">
-              <h1 className="text-4xl font-bold text-white p-6">{star.name}</h1>
-            </div>
-          </div> */}
-
       <div className="max-w-4xl mx-auto">
         <div className="bg-gray-800 border border-gray-700 rounded-xl overflow-hidden">
           
-          {/* --- REPLACED IMAGE SECTION WITH SIMULATION --- */}
           <div className="h-[500px] relative w-full border-b border-gray-700">
-             {/* Pass the star object (which contains planets) to the simulation */}
              <StarSystemSimulation starData={star} />
              
-             {/* Overlay Title */}
              <div className="absolute top-0 left-0 p-6 pointer-events-none">
                <h1 className="text-4xl font-bold text-white drop-shadow-md">{star.name}</h1>
                <p className="text-blue-200 text-sm">{star.star_type} System</p>
@@ -79,7 +73,6 @@ export default async function StarDetailPage({ params }) {
           </div>
 
           <div className="p-8">
-            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="space-y-3">
                 <div>
@@ -119,18 +112,6 @@ export default async function StarDetailPage({ params }) {
               </div>
             </div>
 
-            {/* Galaxy Link */}
-            {star.galaxies && (
-              <div className="mt-8">
-                <h2 className="text-2xl font-bold mb-4">Galaxy</h2>
-                <Link href={`/galaxies/${star.galaxies.galaxy_id}`}>
-                  <span className="px-4 py-2 bg-indigo-900/50 text-indigo-200 rounded-full border border-indigo-700 hover:bg-indigo-800 cursor-pointer transition inline-block">
-                    {star.galaxies.name}
-                  </span>
-                </Link>
-              </div>
-            )}
-
             {/* Constellation Link */}
             {star.constellation && (
               <div className="mt-8">
@@ -163,4 +144,3 @@ export default async function StarDetailPage({ params }) {
     </div>
   );
 }
-

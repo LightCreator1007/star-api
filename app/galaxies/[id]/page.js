@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getGalaxyImage } from "../getGalaxyImage";
+import GalaxySystemSimulation from "@/app/components/GalaxySystemSimulation";
 
 export default async function GalaxyDetailPage({ params }) {
   const { id } = await params;
@@ -36,19 +37,25 @@ export default async function GalaxyDetailPage({ params }) {
 
   return (
     <div className="p-10 bg-gray-900 min-h-screen text-white">
-      <Link href="/galaxies" className="text-purple-400 hover:text-purple-300 mb-4 inline-block">
-        ← Back to Galaxies
-      </Link>
+      {/* Breadcrumbs */}
+      <nav className="text-sm text-gray-400 mb-8 flex items-center space-x-2">
+        <Link href="/" className="hover:text-purple-400 transition">
+          Universe
+        </Link>
+        <span>&gt;</span>
+        <span className="text-purple-300 font-medium">Galaxy: {galaxy.name}</span>
+      </nav>
       
       <div className="max-w-4xl mx-auto">
         <div className="bg-gray-800 border border-gray-700 rounded-xl overflow-hidden">
           <div className="h-64 relative overflow-hidden">
-            <Image
+            {/* <Image
               src={getGalaxyImage(galaxy.type)}
               alt={galaxy.name}
               fill
               className="object-cover"
-            />
+            /> */}
+            <GalaxySystemSimulation galaxyData={galaxy} />
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent flex items-end">
               <h1 className="text-4xl font-bold text-white p-6">{galaxy.name}</h1>
             </div>
@@ -123,4 +130,3 @@ export default async function GalaxyDetailPage({ params }) {
     </div>
   );
 }
-
