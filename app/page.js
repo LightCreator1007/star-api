@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -8,7 +8,8 @@ export default function Home() {
           Explore the Cosmos
         </h1>
         <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
-          Discover the wonders of the universe, from distant galaxies to mesmerizing constellations.
+          Discover the wonders of the universe, from distant galaxies to
+          mesmerizing constellations.
         </p>
         <Link href="/constellations">
           <button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-full shadow-lg transform transition hover:scale-105">
