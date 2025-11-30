@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getStarImage } from "../getStarImage";
+import StarSystemSimulation from "@/app/components/StarSystemSimulation";
 
 export default async function StarDetailPage({ params }) {
   const { id } = await params;
@@ -48,7 +49,7 @@ export default async function StarDetailPage({ params }) {
         ← Back to Stars
       </Link>
       
-      <div className="max-w-4xl mx-auto">
+      {/* <div className="max-w-4xl mx-auto">
         <div className="bg-gray-800 border border-gray-700 rounded-xl overflow-hidden">
           <div className="h-64 relative overflow-hidden">
             <Image
@@ -60,6 +61,21 @@ export default async function StarDetailPage({ params }) {
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent flex items-end">
               <h1 className="text-4xl font-bold text-white p-6">{star.name}</h1>
             </div>
+          </div> */}
+
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-gray-800 border border-gray-700 rounded-xl overflow-hidden">
+          
+          {/* --- REPLACED IMAGE SECTION WITH SIMULATION --- */}
+          <div className="h-[500px] relative w-full border-b border-gray-700">
+             {/* Pass the star object (which contains planets) to the simulation */}
+             <StarSystemSimulation starData={star} />
+             
+             {/* Overlay Title */}
+             <div className="absolute top-0 left-0 p-6 pointer-events-none">
+               <h1 className="text-4xl font-bold text-white drop-shadow-md">{star.name}</h1>
+               <p className="text-blue-200 text-sm">{star.star_type} System</p>
+             </div>
           </div>
 
           <div className="p-8">
