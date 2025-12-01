@@ -2,8 +2,6 @@ import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-  // 1. Setup the "God Mode" Client
-  // We create this client HERE, not in lib/supabaseClient, because this key is secret.
   const supabaseAdmin = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.SUPABASE_SERVICE_ROLE_KEY,
@@ -18,15 +16,13 @@ export async function POST(request) {
   try {
     const { email } = await request.json();
 
-    // 2. Invite the user
-    // This sends them a magic link to set their password.
-    const { data, error } = await supabaseAdmin.auth.inviteUserByEmail(email);
+    // FIX: Added '.admin' here. This function lives in the admin namespace.
+    const { data, error } =
+      await supabaseAdmin.auth.admin.inviteUserByEmail(email);
 
     if (error) throw error;
 
-    // 3. Upgrade them to Admin immediately
-    // Because the trigger we made in Step 1 sets them to 'user' by default,
-    // we need to manually bump them up to 'admin' now.
+    // Optional: If you need to update a separate profiles table
     if (data.user) {
       const { error: profileError } = await supabaseAdmin
         .from("profiles")
@@ -38,6 +34,7 @@ export async function POST(request) {
 
     return NextResponse.json({ message: "Admin invite sent successfully!" });
   } catch (error) {
+    console.error("Invite Error:", error); // Log it so you can see it in terminal
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
